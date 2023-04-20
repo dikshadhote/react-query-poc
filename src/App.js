@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import "./App.css";
+import HomePage from "./components/HomePage";
+import RQSuperHeroesPage from "./components/RQSuperHeroPage";
+import SuperHeroesPage from "./components/SuperHeroesPage";
+import React, { createContext } from "react";
+
+export const FriendsContext = createContext();
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div>
+          <nav>
+            <ul style={{ display: "flex" }}>
+              <li style={{ margin: "2rem" }}>
+                <Link to="/">Home</Link>
+              </li>
+              <li style={{ margin: "2rem" }}>
+                <Link to="/super-heroes"> Super Heroes</Link>
+              </li>
+              <li style={{ margin: "2rem" }}>
+                <Link to="/rq-super-heroes">RQ Super Heroes</Link>
+              </li>
+            </ul>
+          </nav>
+          <Routes>
+            <Route path="/" element={<HomePage />}></Route>
+            <Route path="/super-heroes" element={<SuperHeroesPage />}></Route>
+            <Route
+              path="/rq-super-heroes"
+              element={<RQSuperHeroesPage />}
+            ></Route>
+          </Routes>
+        </div>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
